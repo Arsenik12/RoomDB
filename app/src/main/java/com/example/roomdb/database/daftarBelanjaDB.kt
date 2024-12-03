@@ -1,6 +1,5 @@
 package com.example.roomdb.database
 
-import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -14,7 +13,7 @@ abstract class daftarBelanjaDB : RoomDatabase() {
         private var INSTANCE: daftarBelanjaDB? = null
 
         @JvmStatic
-        fun getDatabase(context: Context): daftarBelanjaDB {
+        fun getDatabase(context: TambahDaftar): daftarBelanjaDB {
             if (INSTANCE == null) {
                 synchronized(daftarBelanjaDB::class.java) {
                     INSTANCE = Room.databaseBuilder(
