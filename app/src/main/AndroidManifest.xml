@@ -16,6 +16,9 @@
             android:name=".TambahDaftar"
             android:exported="false" />
         <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

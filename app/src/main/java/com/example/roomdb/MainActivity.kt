@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onStart()
         CoroutineScope(Dispatchers.Main).async {
-            val daftarBelanja = DB.fundaftarBelanjaDAO().selectALl()
+            val daftarBelanja = DB.fundaftarBelanjaDAO().selectActiveItems()
             Log.d("data ROOM", daftarBelanja.toString())
             adapterDaftar.isiData(daftarBelanja)
         }
@@ -58,12 +59,28 @@ class MainActivity : AppCompatActivity() {
                 override fun delData(dtBelanja: daftarBelanja) {
                     CoroutineScope(Dispatchers.IO).async {
                         DB.fundaftarBelanjaDAO().delete(dtBelanja)
-                        val daftar = DB.fundaftarBelanjaDAO().selectALl()
+                        val daftar = DB.fundaftarBelanjaDAO().selectActiveItems()
                         withContext(Dispatchers.Main) {
                             adapterDaftar.isiData(daftar)
                         }
                     }
                 }
             })
+
+        val _fabHistory = findViewById<FloatingActionButton>(R.id.btnHistory)
+        _fabHistory.setOnClickListener {
+            startActivity(Intent(this, HistoryActivity::class.java))
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        CoroutineScope(Dispatchers.IO).launch {
+            val activeItems = DB.fundaftarBelanjaDAO().selectActiveItems()
+            withContext(Dispatchers.Main) {
+                adapterDaftar.isiData(activeItems)
+            }
+        }
     }
 }

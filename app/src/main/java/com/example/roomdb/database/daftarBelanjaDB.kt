@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.roomdb.TambahDaftar
 
-@Database(entities = [daftarBelanja::class], version = 1)
+@Database(entities = [daftarBelanja::class], version = 1, exportSchema = false)
 abstract class daftarBelanjaDB : RoomDatabase() {
+
     abstract fun fundaftarBelanjaDAO(): NoteDAO
 
     companion object {
@@ -20,7 +20,8 @@ abstract class daftarBelanjaDB : RoomDatabase() {
                 synchronized(daftarBelanjaDB::class.java) {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
-                        daftarBelanjaDB::class.java, "daftarBelanja_db"
+                        daftarBelanjaDB::class.java,
+                        "daftarBelanja.db"
                     )
                         .allowMainThreadQueries()
                         .build()

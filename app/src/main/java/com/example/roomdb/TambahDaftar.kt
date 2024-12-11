@@ -42,22 +42,23 @@ class TambahDaftar : AppCompatActivity() {
                     daftarBelanja(
                         tanggal = tanggal,
                         item = _etItem.text.toString(),
-                        jumlah = _etJumlah.text.toString()
+                        jumlah = _etJumlah.text.toString(),
+                        status = 0
                     )
                 )
             }
         }
-        var iID : Int = 0
-        var iAddEdit : Int = 0
+        var iID: Int = 0
+        var iAddEdit: Int = 0
 
         iID = intent.getIntExtra("id", 0)
         iAddEdit = intent.getIntExtra("addEdit", 0)
 
-        if (iAddEdit == 0){
+        if (iAddEdit == 0) {
             _btnTambah.visibility = Button.VISIBLE
             _btnUpdate.visibility = Button.GONE
             _etItem.isEnabled = true
-        }else{
+        } else {
             _btnTambah.visibility = Button.GONE
             _btnUpdate.visibility = Button.VISIBLE
             _etItem.isEnabled = false
@@ -72,9 +73,10 @@ class TambahDaftar : AppCompatActivity() {
         _btnUpdate.setOnClickListener {
             CoroutineScope(Dispatchers.IO).async {
                 DB.fundaftarBelanjaDAO().update(
-                   isi_tanggal = tanggal,
+                    isi_tanggal = tanggal,
                     isi_item = _etItem.text.toString(),
                     isi_jumlah = _etJumlah.text.toString(),
+                    isi_status = 0,
                     pilihid = iID
                 )
             }
